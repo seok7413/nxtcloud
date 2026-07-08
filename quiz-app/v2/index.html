@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AWS 기초 개념 퀴즈</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>☁️ AWS 기초 개념 퀴즈</h1>
+      <p class="subtitle">AWS 클라우드 기초 지식을 테스트해보세요!</p>
+
+      <nav class="nav-tabs" aria-label="탭 네비게이션">
+        <button class="nav-tab active" id="tabQuiz" type="button">퀴즈</button>
+        <button class="nav-tab" id="tabScrapbook" type="button">
+          오답 노트
+          <span class="badge hidden" id="scrapBadge">0</span>
+        </button>
+      </nav>
+
+      <!-- 퀴즈 탭 -->
+      <section id="quizTab">
+        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+
+        <div class="score-display" id="scoreDisplay" aria-live="polite" aria-atomic="true">
+          점수: <span id="scoreText">0</span> / <span id="totalText">5</span>
+        </div>
+
+        <div id="quizSection">
+          <div class="retry-badge hidden" id="retryBadge">🔄 틀린 문제 다시 풀기 모드</div>
+
+          <div id="questionArea" aria-live="polite" aria-atomic="true">
+            <p class="question-number" id="questionNumber"></p>
+            <p class="question-text" id="questionText"></p>
+          </div>
+
+          <div class="options" id="optionsContainer"></div>
+          <div class="explanation hidden" id="explanation"></div>
+          <button class="next-btn hidden" id="nextBtn" type="button">다음 문제</button>
+        </div>
+
+        <div class="result-section hidden" id="resultSection">
+          <div class="result-emoji" id="resultEmoji"></div>
+          <div class="result-score" id="resultScore"></div>
+          <p class="result-message" id="resultMessage"></p>
+          <div class="result-buttons">
+            <button class="reset-btn" id="resetBtn" type="button">전체 다시 풀기</button>
+            <button class="retry-wrong-btn" id="retryWrongBtn" type="button">틀린 문제만 다시 풀기</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 오답 노트 탭 -->
+      <section class="scrapbook-section hidden" id="scrapbookTab">
+        <div id="scrapbookContent"></div>
+        <div class="scrapbook-actions hidden" id="scrapbookActions">
+          <button class="clear-scrap-btn" id="clearScrapBtn" type="button">오답 노트 전체 삭제</button>
+        </div>
+      </section>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
