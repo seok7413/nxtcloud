@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AWS 기초 개념 퀴즈</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(135deg, #232f3e 0%, #1a2332 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        max-width: 640px;
+        width: 100%;
+        padding: 40px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #232f3e;
+        margin-bottom: 8px;
+        font-size: 1.6rem;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 24px;
+        font-size: 0.9rem;
+      }
+
+      .nav-tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 24px;
+        border-bottom: 2px solid #e8e8e8;
+        padding-bottom: 0;
+      }
+
+      .nav-tab {
+        padding: 10px 20px;
+        border: none;
+        background: none;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #999;
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+        margin-bottom: -2px;
+        transition: all 0.2s ease;
+      }
+
+      .nav-tab:hover {
+        color: #555;
+      }
+
+      .nav-tab.active {
+        color: #ff9900;
+        border-bottom-color: #ff9900;
+      }
+
+      .nav-tab .badge {
+        display: inline-block;
+        background: #c62828;
+        color: #fff;
+        font-size: 0.7rem;
+        padding: 2px 6px;
+        border-radius: 10px;
+        margin-left: 6px;
+        font-weight: 700;
+      }
+
+      .progress-bar {
+        background: #e8e8e8;
+        border-radius: 20px;
+        height: 8px;
+        margin-bottom: 24px;
+        overflow: hidden;
+      }
+
+      .progress-bar-fill {
+        background: linear-gradient(90deg, #ff9900, #ffb84d);
+        height: 100%;
+        border-radius: 20px;
+        transition: width 0.4s ease;
+      }
+
+      .score-display {
+        text-align: center;
+        font-size: 0.95rem;
+        color: #555;
+        margin-bottom: 20px;
+      }
+
+      .score-display span {
+        font-weight: 700;
+        color: #ff9900;
+      }
+
+      .question-number {
+        font-size: 0.85rem;
+        color: #999;
+        margin-bottom: 8px;
+      }
+
+      .question-text {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #232f3e;
+        margin-bottom: 20px;
+        line-height: 1.5;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .option-btn {
+        padding: 14px 18px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        background: #fafafa;
+        cursor: pointer;
+        font-size: 0.95rem;
+        text-align: left;
+        transition: all 0.2s ease;
+        color: #333;
+      }
+
+      .option-btn:hover:not(:disabled) {
+        border-color: #ff9900;
+        background: #fff8ee;
+      }
+
+      .option-btn:disabled {
+        cursor: default;
+      }
+
+      .option-btn.correct {
+        border-color: #2e7d32;
+        background: #e8f5e9;
+        color: #2e7d32;
+        font-weight: 600;
+      }
+
+      .option-btn.wrong {
+        border-color: #c62828;
+        background: #ffebee;
+        color: #c62828;
+      }
+
+      .explanation {
+        background: #f5f5f5;
+        border-left: 4px solid #ff9900;
+        padding: 14px 18px;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #444;
+        display: none;
+      }
+
+      .explanation.show {
+        display: block;
+      }
+
+      .next-btn {
+        display: none;
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #ff9900, #ffb84d);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .next-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 153, 0, 0.4);
+      }
+
+      .next-btn.show {
+        display: block;
+      }
+
+      .result-section {
+        text-align: center;
+        display: none;
+      }
+
+      .result-section.show {
+        display: block;
+      }
+
+      .result-emoji {
+        font-size: 3rem;
+        margin-bottom: 16px;
+      }
+
+      .result-score {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #232f3e;
+        margin-bottom: 8px;
+      }
+
+      .result-message {
+        color: #666;
+        margin-bottom: 24px;
+        font-size: 1rem;
+      }
+
+      .result-buttons {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .reset-btn {
+        padding: 14px 32px;
+        background: #232f3e;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+
+      .reset-btn:hover {
+        background: #37475a;
+      }
+
+      .retry-wrong-btn {
+        padding: 14px 32px;
+        background: #c62828;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+
+      .retry-wrong-btn:hover {
+        background: #e53935;
+      }
+
+      .retry-wrong-btn:disabled {
+        background: #ccc;
+        cursor: default;
+      }
+
+      .retry-badge {
+        display: none;
+        text-align: center;
+        background: #ffebee;
+        color: #c62828;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+
+      .retry-badge.show {
+        display: block;
+      }
+
+      /* Scrapbook styles */
+      .scrapbook-section {
+        display: none;
+      }
+
+      .scrapbook-section.show {
+        display: block;
+      }
+
+      .scrapbook-empty {
+        text-align: center;
+        padding: 40px 20px;
+        color: #999;
+      }
+
+      .scrapbook-empty-icon {
+        font-size: 2.5rem;
+        margin-bottom: 12px;
+      }
+
+      .scrapbook-empty-text {
+        font-size: 0.95rem;
+      }
+
+      .scrap-card {
+        border: 2px solid #ffcdd2;
+        border-radius: 12px;
+        padding: 18px;
+        margin-bottom: 16px;
+        background: #fff;
+      }
+
+      .scrap-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .scrap-card-number {
+        font-size: 0.8rem;
+        color: #c62828;
+        font-weight: 600;
+        background: #ffebee;
+        padding: 3px 10px;
+        border-radius: 12px;
+      }
+
+      .scrap-card-remove {
+        background: none;
+        border: none;
+        color: #999;
+        cursor: pointer;
+        font-size: 1.2rem;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: all 0.2s;
+      }
+
+      .scrap-card-remove:hover {
+        background: #ffebee;
+        color: #c62828;
+      }
+
+      .scrap-card-question {
+        font-weight: 600;
+        color: #232f3e;
+        margin-bottom: 10px;
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+
+      .scrap-card-answer {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 6px;
+        font-size: 0.85rem;
+      }
+
+      .scrap-label {
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .scrap-label.wrong {
+        color: #c62828;
+      }
+
+      .scrap-label.correct {
+        color: #2e7d32;
+      }
+
+      .scrap-card-explanation {
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px solid #eee;
+        font-size: 0.85rem;
+        color: #666;
+        line-height: 1.5;
+      }
+
+      .scrapbook-actions {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .clear-scrap-btn {
+        padding: 10px 24px;
+        background: #f5f5f5;
+        color: #666;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .clear-scrap-btn:hover {
+        background: #ffebee;
+        border-color: #c62828;
+        color: #c62828;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>☁️ AWS 기초 개념 퀴즈</h1>
+      <p class="subtitle">AWS 클라우드 기초 지식을 테스트해보세요!</p>
+
+      <div class="nav-tabs">
+        <button class="nav-tab active" id="tabQuiz" onclick="switchTab('quiz')">
+          퀴즈
+        </button>
+        <button
+          class="nav-tab"
+          id="tabScrapbook"
+          onclick="switchTab('scrapbook')"
+        >
+          오답 노트
+          <span class="badge" id="scrapBadge" style="display: none">0</span>
+        </button>
+      </div>
+
+      <!-- Quiz Tab -->
+      <div id="quizTab">
+        <div class="progress-bar">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+
+        <div class="score-display">
+          점수: <span id="scoreText">0</span> / <span id="totalText">5</span>
+        </div>
+
+        <div id="quizSection">
+          <div class="retry-badge" id="retryBadge">
+            🔄 틀린 문제 다시 풀기 모드
+          </div>
+          <p class="question-number" id="questionNumber"></p>
+          <p class="question-text" id="questionText"></p>
+          <div class="options" id="optionsContainer"></div>
+          <div class="explanation" id="explanation"></div>
+          <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+            다음 문제
+          </button>
+        </div>
+
+        <div class="result-section" id="resultSection">
+          <div class="result-emoji" id="resultEmoji"></div>
+          <div class="result-score" id="resultScore"></div>
+          <p class="result-message" id="resultMessage"></p>
+          <div class="result-buttons">
+            <button class="reset-btn" onclick="resetQuiz()">
+              전체 다시 풀기
+            </button>
+            <button
+              class="retry-wrong-btn"
+              id="retryWrongBtn"
+              onclick="retryWrong()"
+            >
+              틀린 문제만 다시 풀기
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrapbook Tab -->
+      <div class="scrapbook-section" id="scrapbookTab">
+        <div id="scrapbookContent"></div>
+        <div
+          class="scrapbook-actions"
+          id="scrapbookActions"
+          style="display: none"
+        >
+          <button class="clear-scrap-btn" onclick="clearScrapbook()">
+            오답 노트 전체 삭제
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const quizData = [
+        {
+          question: "Amazon S3는 어떤 유형의 스토리지 서비스인가요?",
+          options: [
+            "블록 스토리지",
+            "객체(Object) 스토리지",
+            "파일 스토리지",
+            "인메모리 스토리지",
+          ],
+          answer: 1,
+          explanation:
+            "Amazon S3(Simple Storage Service)는 객체 스토리지 서비스입니다. 파일을 객체로 저장하며, 각 객체는 데이터, 메타데이터, 고유 키로 구성됩니다. 블록 스토리지는 EBS, 파일 스토리지는 EFS가 담당합니다.",
+        },
+        {
+          question: "AWS에서 가상 서버를 제공하는 서비스는 무엇인가요?",
+          options: [
+            "AWS Lambda",
+            "Amazon RDS",
+            "Amazon EC2",
+            "Amazon DynamoDB",
+          ],
+          answer: 2,
+          explanation:
+            "Amazon EC2(Elastic Compute Cloud)는 클라우드에서 가상 서버(인스턴스)를 제공하는 서비스입니다. Lambda는 서버리스 컴퓨팅, RDS는 관계형 데이터베이스, DynamoDB는 NoSQL 데이터베이스 서비스입니다.",
+        },
+        {
+          question: "AWS에서 사용자 및 권한을 관리하는 서비스는 무엇인가요?",
+          options: [
+            "Amazon CloudWatch",
+            "AWS IAM",
+            "Amazon VPC",
+            "AWS CloudTrail",
+          ],
+          answer: 1,
+          explanation:
+            "AWS IAM(Identity and Access Management)은 사용자, 그룹, 역할을 생성하고 AWS 리소스에 대한 접근 권한을 관리하는 서비스입니다. CloudWatch는 모니터링, VPC는 네트워크, CloudTrail은 API 호출 로깅 서비스입니다.",
+        },
+        {
+          question: "AWS 리전(Region)에 대한 설명으로 올바른 것은?",
+          options: [
+            "전 세계에 단 하나만 존재한다",
+            "하나의 리전에는 하나의 가용 영역만 있다",
+            "리전은 지리적으로 분리된 독립적인 영역이며, 여러 가용 영역(AZ)으로 구성된다",
+            "리전 간 데이터는 자동으로 복제된다",
+          ],
+          answer: 2,
+          explanation:
+            "AWS 리전은 전 세계 여러 지역에 분포한 독립적인 지리적 영역입니다. 각 리전은 2개 이상의 가용 영역(Availability Zone)으로 구성되어 고가용성을 제공합니다. 리전 간 데이터 복제는 자동이 아니라 사용자가 설정해야 합니다.",
+        },
+        {
+          question: "서버를 관리하지 않고 코드를 실행할 수 있는 AWS 서비스는?",
+          options: [
+            "Amazon EC2",
+            "Amazon ECS",
+            "AWS Lambda",
+            "AWS Elastic Beanstalk",
+          ],
+          answer: 2,
+          explanation:
+            "AWS Lambda는 서버리스 컴퓨팅 서비스로, 서버 프로비저닝이나 관리 없이 코드를 실행할 수 있습니다. 이벤트에 의해 트리거되며, 실행한 시간만큼만 비용이 부과됩니다. EC2는 가상 서버, ECS는 컨테이너 서비스, Elastic Beanstalk는 PaaS 형태의 배포 서비스입니다.",
+        },
+      ];
+
+      // Quiz state
+      let activeIndices = [];
+      let currentIndex = 0;
+      let score = 0;
+      let answers = [];
+      let retryMode = false;
+
+      // Scrapbook state (persisted separately)
+      let scrapbook = []; // array of { questionIndex, selectedAnswer, timestamp }
+
+      function loadState() {
+        const saved = localStorage.getItem("awsQuizState");
+        if (saved) {
+          const state = JSON.parse(saved);
+          activeIndices = state.activeIndices || [
+            ...Array(quizData.length).keys(),
+          ];
+          currentIndex = state.currentIndex || 0;
+          score = state.score || 0;
+          answers = state.answers || [];
+          retryMode = state.retryMode || false;
+        } else {
+          activeIndices = [...Array(quizData.length).keys()];
+          currentIndex = 0;
+          score = 0;
+          answers = [];
+          retryMode = false;
+        }
+
+        const savedScrap = localStorage.getItem("awsQuizScrapbook");
+        if (savedScrap) {
+          scrapbook = JSON.parse(savedScrap);
+        }
+      }
+
+      function saveState() {
+        const state = {
+          activeIndices,
+          currentIndex,
+          score,
+          answers,
+          retryMode,
+        };
+        localStorage.setItem("awsQuizState", JSON.stringify(state));
+      }
+
+      function saveScrapbook() {
+        localStorage.setItem("awsQuizScrapbook", JSON.stringify(scrapbook));
+        updateScrapBadge();
+      }
+
+      function addToScrapbook(questionIndex, selectedAnswer) {
+        // Avoid duplicates (same question)
+        const exists = scrapbook.find((s) => s.questionIndex === questionIndex);
+        if (!exists) {
+          scrapbook.push({
+            questionIndex,
+            selectedAnswer,
+            timestamp: new Date().toLocaleString("ko-KR"),
+          });
+          saveScrapbook();
+        }
+      }
+
+      function removeFromScrapbook(questionIndex) {
+        scrapbook = scrapbook.filter((s) => s.questionIndex !== questionIndex);
+        saveScrapbook();
+        renderScrapbook();
+      }
+
+      function removeFromScrapbookSilent(questionIndex) {
+        scrapbook = scrapbook.filter((s) => s.questionIndex !== questionIndex);
+        saveScrapbook();
+      }
+
+      function clearScrapbook() {
+        if (confirm("오답 노트를 전체 삭제하시겠습니까?")) {
+          scrapbook = [];
+          saveScrapbook();
+          renderScrapbook();
+        }
+      }
+
+      function updateScrapBadge() {
+        const badge = document.getElementById("scrapBadge");
+        if (scrapbook.length > 0) {
+          badge.style.display = "inline-block";
+          badge.textContent = scrapbook.length;
+        } else {
+          badge.style.display = "none";
+        }
+      }
+
+      // Tab navigation
+      function switchTab(tab) {
+        const quizTab = document.getElementById("quizTab");
+        const scrapbookTab = document.getElementById("scrapbookTab");
+        const tabQuiz = document.getElementById("tabQuiz");
+        const tabScrapbook = document.getElementById("tabScrapbook");
+
+        if (tab === "quiz") {
+          quizTab.style.display = "block";
+          scrapbookTab.classList.remove("show");
+          tabQuiz.classList.add("active");
+          tabScrapbook.classList.remove("active");
+        } else {
+          quizTab.style.display = "none";
+          scrapbookTab.classList.add("show");
+          tabQuiz.classList.remove("active");
+          tabScrapbook.classList.add("active");
+          renderScrapbook();
+        }
+      }
+
+      function renderScrapbook() {
+        const content = document.getElementById("scrapbookContent");
+        const actions = document.getElementById("scrapbookActions");
+
+        if (scrapbook.length === 0) {
+          content.innerHTML = `
+          <div class="scrapbook-empty">
+            <div class="scrapbook-empty-icon">📋</div>
+            <p class="scrapbook-empty-text">아직 스크랩한 오답이 없습니다.<br>퀴즈에서 틀린 문제가 자동으로 저장됩니다.</p>
+          </div>
+        `;
+          actions.style.display = "none";
+          return;
+        }
+
+        actions.style.display = "block";
+        let html = "";
+
+        scrapbook.forEach((item) => {
+          const q = quizData[item.questionIndex];
+          const selectedText = q.options[item.selectedAnswer];
+          const correctText = q.options[q.answer];
+
+          html += `
+          <div class="scrap-card">
+            <div class="scrap-card-header">
+              <span class="scrap-card-number">문제 ${item.questionIndex + 1} · ${item.timestamp}</span>
+              <button class="scrap-card-remove" onclick="removeFromScrapbook(${item.questionIndex})" title="삭제">✕</button>
+            </div>
+            <div class="scrap-card-question">${q.question}</div>
+            <div class="scrap-card-answer">
+              <span class="scrap-label wrong">내 답:</span>
+              <span>${selectedText}</span>
+            </div>
+            <div class="scrap-card-answer">
+              <span class="scrap-label correct">정답:</span>
+              <span>${correctText}</span>
+            </div>
+            <div class="scrap-card-explanation">${q.explanation}</div>
+          </div>
+        `;
+        });
+
+        content.innerHTML = html;
+      }
+
+      function renderQuestion() {
+        if (currentIndex >= activeIndices.length) {
+          showResult();
+          return;
+        }
+
+        const qIdx = activeIndices[currentIndex];
+        const q = quizData[qIdx];
+        const total = activeIndices.length;
+
+        document.getElementById("questionNumber").textContent =
+          `문제 ${currentIndex + 1} / ${total}`;
+        document.getElementById("questionText").textContent = q.question;
+        document.getElementById("scoreText").textContent = score;
+        document.getElementById("totalText").textContent = total;
+
+        const progress = (currentIndex / total) * 100;
+        document.getElementById("progressFill").style.width = progress + "%";
+
+        const badge = document.getElementById("retryBadge");
+        if (retryMode) {
+          badge.classList.add("show");
+        } else {
+          badge.classList.remove("show");
+        }
+
+        const container = document.getElementById("optionsContainer");
+        container.innerHTML = "";
+
+        q.options.forEach((option, index) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = option;
+          btn.onclick = () => selectAnswer(index);
+          container.appendChild(btn);
+        });
+
+        document.getElementById("explanation").classList.remove("show");
+        document.getElementById("nextBtn").classList.remove("show");
+
+        if (answers[qIdx] !== undefined) {
+          showAnswerResult(answers[qIdx], qIdx);
+        }
+
+        document.getElementById("quizSection").style.display = "block";
+        document.getElementById("resultSection").classList.remove("show");
+      }
+
+      function selectAnswer(selected) {
+        const qIdx = activeIndices[currentIndex];
+        if (answers[qIdx] !== undefined) return;
+
+        answers[qIdx] = selected;
+        const q = quizData[qIdx];
+
+        if (selected === q.answer) {
+          score++;
+          document.getElementById("scoreText").textContent = score;
+          // Correct answer -> remove from scrapbook if it was there
+          removeFromScrapbookSilent(qIdx);
+        } else {
+          // Wrong answer -> auto-add to scrapbook
+          addToScrapbook(qIdx, selected);
+        }
+
+        saveState();
+        showAnswerResult(selected, qIdx);
+      }
+
+      function showAnswerResult(selected, qIdx) {
+        const q = quizData[qIdx];
+        const buttons = document.querySelectorAll(".option-btn");
+
+        buttons.forEach((btn, index) => {
+          btn.disabled = true;
+          if (index === q.answer) {
+            btn.classList.add("correct");
+          } else if (index === selected && selected !== q.answer) {
+            btn.classList.add("wrong");
+          }
+        });
+
+        document.getElementById("explanation").textContent = q.explanation;
+        document.getElementById("explanation").classList.add("show");
+        document.getElementById("nextBtn").classList.add("show");
+
+        if (currentIndex === activeIndices.length - 1) {
+          document.getElementById("nextBtn").textContent = "결과 보기";
+        } else {
+          document.getElementById("nextBtn").textContent = "다음 문제";
+        }
+      }
+
+      function nextQuestion() {
+        currentIndex++;
+        saveState();
+        renderQuestion();
+      }
+
+      function getWrongIndices() {
+        const wrong = [];
+        for (const idx of activeIndices) {
+          if (
+            answers[idx] !== undefined &&
+            answers[idx] !== quizData[idx].answer
+          ) {
+            wrong.push(idx);
+          }
+        }
+        return wrong;
+      }
+
+      function showResult() {
+        document.getElementById("quizSection").style.display = "none";
+        document.getElementById("resultSection").classList.add("show");
+        document.getElementById("progressFill").style.width = "100%";
+
+        const total = activeIndices.length;
+        const percentage = (score / total) * 100;
+        let emoji, message;
+
+        if (percentage === 100) {
+          emoji = "🏆";
+          message = "완벽합니다! AWS 기초를 확실히 이해하고 계시네요!";
+        } else if (percentage >= 60) {
+          emoji = "👍";
+          message = "좋습니다! 몇 가지 개념을 더 공부하면 완벽해질 거예요!";
+        } else {
+          emoji = "📚";
+          message = "AWS 기초 개념을 조금 더 학습해보세요!";
+        }
+
+        document.getElementById("resultEmoji").textContent = emoji;
+        document.getElementById("resultScore").textContent =
+          `${score} / ${total}`;
+        document.getElementById("resultMessage").textContent = message;
+
+        const wrongCount = getWrongIndices().length;
+        const retryBtn = document.getElementById("retryWrongBtn");
+        if (wrongCount > 0) {
+          retryBtn.disabled = false;
+          retryBtn.textContent = `틀린 문제만 다시 풀기 (${wrongCount}문제)`;
+        } else {
+          retryBtn.disabled = true;
+          retryBtn.textContent = "모두 정답!";
+        }
+      }
+
+      function retryWrong() {
+        const wrongIndices = getWrongIndices();
+        if (wrongIndices.length === 0) return;
+
+        for (const idx of wrongIndices) {
+          delete answers[idx];
+        }
+
+        activeIndices = wrongIndices;
+        currentIndex = 0;
+        score = 0;
+        retryMode = true;
+        saveState();
+
+        document.getElementById("nextBtn").textContent = "다음 문제";
+        renderQuestion();
+      }
+
+      function resetQuiz() {
+        activeIndices = [...Array(quizData.length).keys()];
+        currentIndex = 0;
+        score = 0;
+        answers = [];
+        retryMode = false;
+        localStorage.removeItem("awsQuizState");
+        document.getElementById("nextBtn").textContent = "다음 문제";
+        document.getElementById("retryBadge").classList.remove("show");
+        renderQuestion();
+      }
+
+      // Initialize
+      loadState();
+      updateScrapBadge();
+      renderQuestion();
+    </script>
+  </body>
+</html>
