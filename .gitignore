@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+._*
+
+# 에디터
+.vscode/
+.idea/
+*.swp
+
+# 의존성 (도구 사용 시)
+node_modules/
+
+# 로그 / 환경변수
+*.log
+.env
+.env.local
+
+# Kiro 로컬 캐시 (steering·specs·hooks·mcp.json은 커밋)
+.kiro/cache/
+.kiro/logs/
