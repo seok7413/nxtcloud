@@ -15,10 +15,11 @@ node_modules/
 .env
 .env.local
 
-# Kiro (cache·logs·steering 무시 · specs·hooks·mcp.json은 커밋)
+# Kiro (cache·logs·steering·specs 무시 · 공유본은 quiz-app/kiro-settings)
 .kiro/cache/
 .kiro/logs/
 .kiro/steering/
+.kiro/specs/
 
 # GStack 파일
 .gstack
