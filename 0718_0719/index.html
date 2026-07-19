@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="장원석의 자기소개 웹사이트">
+<title>장원석 | 자기소개</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "장원석",
+  "description": "경북대학교 미식축구부 오렌지파이터스 DB 20번"
+}
+</script>
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --text-bright: #ffffff;
+    --accent: #39ff88;
+    --blue: #79c0ff;
+    --comment: #6b7280;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding: clamp(1rem, 5vw, 2.5rem) 1rem;
+  }
+
+  .terminal {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .terminal-bar {
+    display: flex;
+    gap: 6px;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+  }
+
+  .dot.red { background: #ff5f56; }
+  .dot.yellow { background: #ffbd2e; }
+  .dot.green { background: #27c93f; }
+
+  .terminal-body {
+    padding: clamp(1.25rem, 4vw, 2rem);
+  }
+
+  .prompt {
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 400;
+    margin: 0 0 0.5rem;
+  }
+
+  .prompt::before {
+    content: "$ ";
+  }
+
+  h2.prompt {
+    margin-bottom: 0.75rem;
+  }
+
+  header.intro {
+    margin-bottom: 2.25rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    color: var(--text-bright);
+    margin: 0 0 0.35rem;
+  }
+
+  .title {
+    font-size: 0.95rem;
+    color: var(--blue);
+    margin: 0 0 1rem;
+  }
+
+  address {
+    font-style: normal;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  address a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  address a:hover {
+    text-decoration: underline;
+  }
+
+  .comment {
+    color: var(--comment);
+  }
+
+  section {
+    margin-bottom: 2.25rem;
+  }
+
+  section:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .timeline-item {
+    margin-bottom: 1.1rem;
+  }
+
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline-item time {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--blue);
+  }
+
+  .timeline-item h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin: 0.15rem 0 0.2rem;
+  }
+
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .skills li {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.85rem;
+    color: var(--accent);
+    background: rgba(57, 255, 136, 0.08);
+  }
+
+  .project {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .project h3 {
+    font-size: 1rem;
+    margin: 0 0 0.3rem;
+  }
+
+  .project h3 a {
+    color: var(--text-bright);
+    text-decoration: none;
+  }
+
+  .project h3 a:hover {
+    color: var(--accent);
+  }
+
+  .project .role {
+    font-size: 0.8rem;
+    color: var(--blue);
+    margin: 0 0 0.4rem;
+  }
+
+  .project .desc {
+    margin: 0 0 0.4rem;
+    font-size: 0.9rem;
+  }
+
+  .project .stack {
+    font-size: 0.8rem;
+    color: var(--accent);
+  }
+
+  footer {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--comment);
+  }
+
+  .print-hint {
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--comment);
+  }
+
+  @media (max-width: 420px) {
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media print {
+    body {
+      background: #ffffff;
+      color: #111111;
+      padding: 0;
+    }
+
+    .terminal {
+      border: none;
+      border-radius: 0;
+    }
+
+    .terminal-bar {
+      display: none;
+    }
+
+    .prompt {
+      color: #555555;
+    }
+
+    .comment {
+      color: #888888;
+    }
+
+    .title {
+      color: #333333;
+    }
+
+    address a {
+      color: #111111;
+    }
+
+    .skills li {
+      color: #111111;
+      background: none;
+    }
+
+    .project .stack {
+      color: #333333;
+    }
+
+    .print-hint {
+      display: none;
+    }
+
+    section {
+      break-inside: avoid;
+    }
+
+    .timeline-item,
+    .project {
+      break-inside: avoid;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="terminal-bar" aria-hidden="true">
+      <span class="dot red"></span>
+      <span class="dot yellow"></span>
+      <span class="dot green"></span>
+    </div>
+    <div class="terminal-body">
+      <header class="intro">
+        <p class="prompt">whoami</p>
+        <h1>장원석</h1>
+        <p class="title">경북대학교 미식축구부 오렌지파이터스 DB 20번</p>
+        <address>
+          <span class="comment">// 이메일 준비 중</span>
+          <span class="comment">// GitHub 준비 중</span>
+          <span class="comment">// LinkedIn 준비 중</span>
+        </address>
+      </header>
+
+      <section id="about">
+        <h2 class="prompt">cat about.md</h2>
+        <p class="comment">// 자기소개 준비 중입니다.</p>
+      </section>
+
+      <section id="experience">
+        <h2 class="prompt">history --edu</h2>
+        <div class="timeline-item">
+          <time datetime="2023">2023 - 현재</time>
+          <h3>경북대학교 컴퓨터학부 글로벌소프트웨어융합전공 재학</h3>
+        </div>
+        <div class="timeline-item">
+          <time datetime="2020-05/2021-11">2020.05 - 2021.11</time>
+          <h3>해병대 만기전역</h3>
+        </div>
+        <div class="timeline-item">
+          <time datetime="2019/2020">2019 - 2020</time>
+          <h3>한서대학교 무인시스템 전공</h3>
+        </div>
+        <div class="timeline-item">
+          <time datetime="2019">2019</time>
+          <h3>현대고등학교 졸업</h3>
+        </div>
+      </section>
+
+      <section id="skills">
+        <h2 class="prompt">ls skills/</h2>
+        <ul class="skills">
+          <li>Python</li>
+          <li>C</li>
+          <li>C++</li>
+        </ul>
+      </section>
+
+      <section id="projects">
+        <h2 class="prompt">ls projects/</h2>
+        <div class="project">
+          <h3><a href="#">Hearo</a></h3>
+          <p class="role">HW 제작 · 소리 분류 AI 모델링 · 백엔드</p>
+          <p class="desc">청각장애인이 가정 내 위험 상황을 인지하지 못해 발생할 수 있는 안전 문제를 해결하기 위한 AI IoT 환경음 인식 시스템. Raspberry Pi 기반 Edge AI 환경에서 실시간으로 소리를 분석하고, 위험 상황 발생 시 시각·촉각 기반 모바일 알림을 제공해 안전하고 독립적인 생활을 지원한다.</p>
+          <p class="stack">Python</p>
+        </div>
+        <div class="project">
+          <h3><a href="#">Deekwake</a></h3>
+          <p class="role">영상 데이터 추출 모듈 개발</p>
+          <p class="desc">영상 파일에서 프레임 단위로 EAR(눈 종횡비)과 Head Pose(고개 각도)를 계산하여, 모델 학습에 활용 가능한 CSV 형태의 데이터셋으로 변환하는 전처리 모듈을 개발.</p>
+          <p class="stack">Python</p>
+        </div>
+      </section>
+
+      <footer>
+        <p>&copy; 2026 장원석</p>
+        <p class="print-hint">💡 인쇄(Ctrl+P 또는 Cmd+P)로 PDF 이력서를 만들 때는 브라우저 인쇄 설정에서 "머리글과 바닥글"을 꺼주시면 더 깔끔하게 나옵니다.</p>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>
